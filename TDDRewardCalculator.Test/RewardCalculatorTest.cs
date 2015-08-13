@@ -60,9 +60,7 @@ namespace TDDRewardCalculator.Test
             // ASSERT
             // Test that ISalesRepository GetClaimsByDate method is called exactly once and with the correct date range
             // See the Moq "Verify" method and "It" class. 
-            // *** TODO ***
-            
-            throw new NotImplementedException();
+            // *** TODO ***           
         }*/
 
         /// <summary>
