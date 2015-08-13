@@ -51,7 +51,7 @@ namespace TDDRewardCalculator.Test
         {
             // ARRANGE
             var mock = new Mock<ISalesRepository>();
-            var period = DateRange.Unbounded();
+            var period = DateRange.Quarter(2015, 3);
             var calculator = new RewardCalculator(mock.Object);
 
             // ACTION
@@ -101,23 +101,5 @@ namespace TDDRewardCalculator.Test
 
             // *** TODO ***
         }*/       
-
-        /// <summary>
-        /// Test that the CalculateRewards method returns the correct reward total for each claimant in Q4. 
-        /// </summary>
-        /*[Test]
-        public void CalculateRewards_RewardCalculation_Q4Bonus_Test()
-        {
-            // There is a new requirement. 
-            // In Q4 of 2015 only, a bonus award is given when a claimant claims sales above a set target. 
-            // Sales up to the target are still awarded £10 each, but any sales over the target are paid at
-            // a rate of £20 each. The target is fixed at 5 sales in the quarter. 
-
-            // tip: Write the test initially so that it fails (red). 
-            // Write a simple solution to get the test to pass (green). 
-            // Now that the test passes, re-factor if possible. 
-
-            // *** TODO ***
-        }*/
     }
 }
