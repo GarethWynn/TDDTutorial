@@ -17,16 +17,6 @@ namespace TDDRewardCalculator
             EndDate = endDate;
         }
 
-        public bool Contains(DateTime date)
-        {
-            return StartDate <= date && EndDate > date;
-        }
-
-        public bool Contains(DateRange range)
-        {
-            return Contains(range.StartDate) && Contains(range.EndDate);
-        }
-
         public static DateRange Range(DateTime startDate, DateTime endDate)
         {
             return new DateRange(startDate, endDate);

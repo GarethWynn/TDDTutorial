@@ -23,101 +23,84 @@ namespace TDDRewardCalculator.Test
         [ExpectedException(ExpectedException = typeof(ArgumentNullException))]
         public void CalculateRewards_NullRewardPeriod_Throws_NullArgumentException_Test()
         {
-            // 1. ARRANGE
+            // ARRANGE
             var calculator = new RewardCalculator(null);
 
-            // 2. ACTION
+            // ACTION
             calculator.CalculateRewards(null);
         }
 
         /// <summary>
         /// Test that ArgumentException is thrown when start date is not earlier than end date.
         /// </summary>
-        /*[Test]
+        [Test]
+        [ExpectedException(ExpectedException = typeof(ArgumentException))]
         public void CalculateRewards_InvalidRewardPeriod_Throws_ArgumentException_Test()
         {
-            // 1. ARRANGE
-            // *** TODO ***
-            
-            // 2. ACTION 
-            // *** TODO ***
-        }*/
+            // ARRANGE
+            var calculator = new RewardCalculator(null);
+            calculator.CalculateRewards(DateRange.Range(DateTime.Now.AddDays(1), DateTime.Now));
+        }
 
         /// <summary>
         /// Test that ISalesRepository GetClaimsByDate method is called exactly once and with the correct date range.
         /// </summary>
-        /*[Test]
+        [Test]
         public void CalculateRewards_CallsRepositoryWithCorrectDateRange_Test()
         {
             // ARRANGE
             var mock = new Mock<ISalesRepository>();
-            var period = DateRange.Unbounded();
+            var period = DateRange.Quarter(2015, 3);
             var calculator = new RewardCalculator(mock.Object);
 
             // ACTION
             calculator.CalculateRewards(period);
 
             // ASSERT
-            // Test that ISalesRepository GetClaimsByDate method is called exactly once and with the correct date range
             // See the Moq "Verify" method and "It" class. 
-            // *** TODO ***
-            
-            throw new NotImplementedException();
-        }*/
+            mock.Verify(
+                repo => repo.GetClaimsByDate(
+                    It.Is<DateTime>(p1 => p1.Equals(period.StartDate)),
+                    It.Is<DateTime>(p2 => p2.Equals(period.EndDate))), 
+                    Times.Once(), "GetClaimsByDate not verified"
+            );
+        }
 
         /// <summary>
         /// Test that the CalculateRewards method returns the correct reward total for each claimant where each sales claim is worth £10. 
         /// </summary>
-        /*[Test]
+        [Test]
         public void CalculateRewards_RewardCalculation_Test()
         {
             // ARRANGE
-            // *** TODO ***
+            var mock = new Mock<ISalesRepository>();
+            var calculator = new RewardCalculator(mock.Object);
 
-            // create test data
-            // tip: only define the minimum amount of data for this particular test case.
-            // *** TODO ***
+            // test data
+            // only define the minimum amount of data for this particular test case.
+            var data = new List<SalesClaim>()
+            {
+                new SalesClaim() { ClaimantId = 1 },
+                new SalesClaim() { ClaimantId = 2 },
+                new SalesClaim() { ClaimantId = 2 }
+            };
 
-            // setup mock to return test data (see "Setup" method It.IsAny() and "Returns"). 
-            // hint: The previous test method should already check that GetClaimsByDate is called correctly.
-            // Don't test that again here, just return the data. 
-            // *** TODO ***
-            
+            // setup mock to return test data (see "Setup" method). 
+            mock.Setup(repo => repo.GetClaimsByDate(It.IsAny<DateTime>(), It.IsAny<DateTime>())).Returns(data);
+
             // define expected results
-            // *** TODO ***
+            var expected = new List<Reward>()
+            {
+                new Reward() { ClaimantId = 1, RewardValue = 10 },
+                new Reward() { ClaimantId = 2, RewardValue = 20 },
+            };
 
             // ACTION
-            // *** TODO ***
+            var result = calculator.CalculateRewards(DateRange.Unbounded());
             
             // ASSERT
-            // test that actual results match the expected 
-
-            // big tip: NUnit includes the handy CollectionAssert.AreEqual method for comparing collections. 
-            // Because our Reward class doesn't override the Equals method, CollectionAssert.AreEqual will use reference equality. 
-            // This will fail because our expected and actual results are different references. 
-            // Therefore, we need to use an override of AreEqual that can take an IComparer implementation 
-            // (see RewardComparer class in this project).            
-            // An alternative solution would be for Reward to override Equals and GetHashCode methods.  
-
-            // *** TODO ***
-        }*/       
-
-        /// <summary>
-        /// Test that the CalculateRewards method returns the correct reward total for each claimant in Q4. 
-        /// </summary>
-        /*[Test]
-        public void CalculateRewards_RewardCalculation_Q4Bonus_Test()
-        {
-            // There is a new requirement. 
-            // In Q4 of 2015 only, a bonus award is given when a claimant claims sales above a set target. 
-            // Sales up to the target are still awarded £10 each, but any sales over the target are paid at
-            // a rate of £20 each. The target is fixed at 5 sales in the quarter. 
-
-            // tip: Write the test initially so that it fails (red). 
-            // Write a simple solution to get the test to pass (green). 
-            // Now that the test passes, re-factor if possible. 
-
-            // *** TODO ***
-        }*/
+            // test that actual results match the expected (see NUnit.CollectionAssert the RewardComparer class in this project).           
+            CollectionAssert.AreEqual(expected, result, new RewardComparer(), "calculated awards do not match expected");            
+        }               
     }
 }

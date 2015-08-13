@@ -23,9 +23,24 @@ namespace TDDRewardCalculator
                 throw new ArgumentNullException("period");
             }
 
-            // TODO: reward calculation (see unit test project for specification). 
+            if (period.EndDate < period.StartDate)
+            {
+                throw new ArgumentException("endDate cannot be earlier than startDate");
+            }
 
-            return null;
+            decimal rewardValue = 10;
+
+            var claims =  _salesRepository.GetClaimsByDate(period.StartDate, period.EndDate);
+
+            return claims
+                .GroupBy(x => x.ClaimantId)
+                .Select(x1 =>
+                    new Reward()
+                    {
+                        ClaimantId = x1.First().ClaimantId,
+                        RewardValue = x1.Count() * rewardValue
+                    }
+            );
         }
     }
 }
