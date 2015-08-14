@@ -16,7 +16,15 @@ namespace TDDRewardCalculator.Test
 
         public int Compare(object x, object y)
         {
-            return Compare((Reward)x, (Reward)y);
+            Reward rewardX = x as Reward;
+            Reward rewardY = x as Reward;
+
+            if(rewardX == null || rewardY == null)
+            {
+                return 1;
+            }
+
+            return Compare(rewardX, rewardY);
         }
     }
 }
