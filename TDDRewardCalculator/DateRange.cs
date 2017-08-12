@@ -41,12 +41,12 @@ namespace TDDRewardCalculator
         {
             if(quarter < 1 || quarter > 4)
             {
-                throw new ArgumentOutOfRangeException("quarter");
+                throw new ArgumentOutOfRangeException(nameof(quarter));
             }
 
             int month = (quarter * 3) - 2;
             DateTime start = new DateTime(year, month, 1);
-            DateTime end = start.AddMonths(3).AddSeconds(-1);
+            DateTime end = start.AddMonths(3);
 
             return Range(start, end);
         }

@@ -20,14 +20,14 @@ namespace TDDRewardCalculator.Test
         /// Test that CalculateRewards method throws ArgumentNullException when passed a null value.
         /// </summary>
         [Test]
-        [ExpectedException(ExpectedException = typeof(ArgumentNullException))]
         public void CalculateRewards_NullRewardPeriod_Throws_NullArgumentException_Test()
         {
             // 1. ARRANGE
             var calculator = new RewardCalculator(null);
 
-            // 2. ACTION
-            calculator.CalculateRewards(null);
+			// 2. ACT & ASSERT
+			Assert.That(() => calculator.CalculateRewards(null),
+                        Throws.TypeOf<ArgumentNullException>());
         }
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace TDDRewardCalculator.Test
             // 1. ARRANGE
             // *** TODO ***
             
-            // 2. ACTION 
+            // 2. ACT & ASSERT
             // *** TODO ***
         }*/
 
@@ -54,7 +54,7 @@ namespace TDDRewardCalculator.Test
             var period = DateRange.Quarter(2015, 3);
             var calculator = new RewardCalculator(mock.Object);
 
-            // ACTION
+            // ACT
             calculator.CalculateRewards(period);
 
             // ASSERT
@@ -84,7 +84,7 @@ namespace TDDRewardCalculator.Test
             // define expected results
             // *** TODO ***
 
-            // ACTION
+            // ACT
             // *** TODO ***
             
             // ASSERT
